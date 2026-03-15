@@ -28,16 +28,28 @@ cd seomachine
 ```
 
 2. Install Python dependencies for analysis modules:
-```bash
-pip install -r data_sources/requirements.txt
-```
 
-This installs:
-- Google Analytics/Search Console integrations
-- DataForSEO API client
-- NLP libraries (nltk, textstat)
-- Machine learning (scikit-learn)
-- Web scraping tools (beautifulsoup4)
+   **Recommended — use a virtual environment** (keeps dependencies isolated per project):
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate        # Mac/Linux
+   # .venv\Scripts\activate         # Windows
+   pip install -r data_sources/requirements.txt
+   ```
+
+   **Quick install** (if you just want to get running):
+   ```bash
+   pip3 install -r data_sources/requirements.txt
+   ```
+
+   > **Note for Mac users**: `pip` is not available by default — use `pip3` or the venv approach above. If you see `command not found: pip`, use `pip3` instead.
+
+   This installs:
+   - Google Analytics/Search Console integrations
+   - DataForSEO API client
+   - NLP libraries (nltk, textstat)
+   - Machine learning (scikit-learn)
+   - Web scraping tools (beautifulsoup4)
 
 3. Open in Claude Code:
 ```bash
@@ -1039,6 +1051,97 @@ Every article must meet these requirements:
 - **Solution**: Update `competitor-analysis.md` with differentiation opportunities
 - **Solution**: Add your unique advantages to `brand-voice.md` and `features.md`
 - **Solution**: Reference specific differentiation angles in `/research` command
+
+## Multi-Project Setup (Agency / Multiple Clients)
+
+This repo is designed to be a **master template**. Each client gets their own independent repo cloned from here, with the ability to pull engine improvements back from master.
+
+### How It Works
+
+Think of SEO Machine as two layers:
+
+- **Engine** (stays in sync with master): `.claude/commands/`, `.claude/agents/`, `.claude/skills/`, `data_sources/`, `context/_onboarding-questionnaire.md`, `context/populate-context.py`, Python scripts, `README.md`, `wordpress/`
+- **Client content** (unique per project, never overwritten): `context/brand-voice.md` and all other context files, `drafts/`, `research/`, `published/`, `rewrites/`, `topics/`, `landing-pages/`, `audits/`
+
+### Setting Up a New Client Project
+
+**Step 1 — Create the client repo from this template**
+
+On GitHub, click **"Use this template" → "Create a new repository"**, name it (e.g. `seomachine-clientname`), set to private, and create it.
+
+**Step 2 — Clone it and connect master as upstream**
+
+```bash
+git clone https://github.com/you/seomachine-clientname.git
+cd seomachine-clientname
+
+# Connect this master repo as "upstream"
+git remote add upstream https://github.com/you/seomachine.git
+
+# Verify both remotes
+git remote -v
+```
+
+**Step 3 — Configure the client**
+
+```bash
+# Fill in the questionnaire for this client
+# (edit context/_onboarding-questionnaire.md)
+
+python3 context/populate-context.py
+
+git add context/
+git commit -m "Configure context for [Client Name]"
+git push origin main
+```
+
+### Pulling Master Engine Updates Into a Client Repo
+
+When commands, agents, or scripts are improved in this master repo, sync them to a client project without touching client content:
+
+```bash
+# Fetch latest from master
+git fetch upstream
+
+# Pull only the engine files — leaves all client context files untouched
+git checkout upstream/main -- .claude/
+git checkout upstream/main -- data_sources/
+git checkout upstream/main -- context/_onboarding-questionnaire.md
+git checkout upstream/main -- context/populate-context.py
+git checkout upstream/main -- README.md
+git checkout upstream/main -- wordpress/
+
+# Review what changed
+git diff --staged
+
+# Commit the update
+git commit -m "Sync engine updates from master"
+git push origin main
+```
+
+> **Important**: Never run a plain `git merge upstream/main` — that would attempt to merge client context files with master's template files. Always use `git checkout upstream/main -- <path>` to pull specific files only.
+
+### Recommended `.gitignore` for Client Repos
+
+Add this to each client repo to keep generated content out of version control (or remove lines you want to track):
+
+```gitignore
+# Client content — commit intentionally, not by default
+drafts/
+research/
+rewrites/
+audits/
+landing-pages/
+published/
+
+# Credentials — never commit
+data_sources/config/.env
+credentials/
+data_sources/cache/
+.venv/
+```
+
+---
 
 ## Support & Contributions
 
