@@ -21,11 +21,23 @@ SEO Machine is built on Claude Code and provides:
 
 ### Installation
 
-1. Clone this repository:
-```bash
-git clone https://github.com/[your-username]/seomachine.git
-cd seomachine
+#### Duplicate this repo
+
+- [https://github.com/sitebuilderone/seomachine](https://github.com/sitebuilderone/seomachine)
+
+####
+
+``` One time setup /per repo
+# One-time setup (you only do this once per client repo)
+git remote add upstream https://github.com/sitebuilderone/seomachine.git
+
+# Confirm it's there
+git remote -v
+
+# Now fetch works
+git fetch upstream
 ```
+
 
 2. Install Python dependencies for analysis modules:
 
