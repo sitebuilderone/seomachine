@@ -1056,6 +1056,8 @@ Every article must meet these requirements:
 
 This repo is designed to be a **master template**. Each client gets their own independent repo cloned from here, with the ability to pull engine improvements back from master.
 
+> 👉 **[Complete Step-by-Step Setup Guide](./SETUP-NEW-CLIENT-PROJECT.md)** — Covers GitHub template usage, cloning, upstream configuration, Python setup (with Mac `pip` fix), context configuration, and syncing updates from master.
+
 ### How It Works
 
 Think of SEO Machine as two layers:
@@ -1075,8 +1077,8 @@ On GitHub, click **"Use this template" → "Create a new repository"**, name it 
 git clone https://github.com/you/seomachine-clientname.git
 cd seomachine-clientname
 
-# Connect this master repo as "upstream"
-git remote add upstream https://github.com/you/seomachine.git
+# Connect the master SEO Machine repo as "upstream"
+git remote add upstream https://github.com/sitebuilderone/seomachine.git
 
 # Verify both remotes
 git remote -v
@@ -1110,6 +1112,7 @@ git checkout upstream/main -- context/_onboarding-questionnaire.md
 git checkout upstream/main -- context/populate-context.py
 git checkout upstream/main -- README.md
 git checkout upstream/main -- wordpress/
+# Add any other engine files you want to sync
 
 # Review what changed
 git diff --staged
