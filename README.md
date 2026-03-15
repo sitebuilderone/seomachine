@@ -1,4 +1,4 @@
-# SEO Machine
+# SEO Machine - Master SiteBuilderOne
 
 A specialized Claude Code workspace for creating long-form, SEO-optimized blog content for any business. This system helps you research, write, analyze, and optimize content that ranks well and serves your target audience.
 
@@ -44,18 +44,30 @@ This installs:
 claude-code .
 ```
 
-4. **Customize Context Files** (Important!):
+4. **Configure Context Files** (Important!):
 
-   All context files are provided as templates. Fill them out with your company's information:
+   The fastest way to get started is the onboarding questionnaire. Fill it in once and a script populates all context files automatically:
 
-   - `context/brand-voice.md` - Define your brand voice and messaging *(see examples/castos/ for reference)*
-   - `context/writing-examples.md` - Add 3-5 exemplary blog posts from your site
-   - `context/features.md` - List your product/service features and benefits
-   - `context/internal-links-map.md` - Map your key pages for internal linking
-   - `context/style-guide.md` - Fill in your style preferences
-   - `context/target-keywords.md` - Add your keyword research and topic clusters
-   - `context/competitor-analysis.md` - Add competitor analysis and insights
-   - `context/seo-guidelines.md` - Review and adjust SEO requirements
+   ```bash
+   # Step 1: Fill in the questionnaire
+   # Open context/_onboarding-questionnaire.md and answer all sections
+
+   # Step 2: Run the populate script
+   python3 context/populate-context.py
+   ```
+
+   This writes all 8 context files from your answers:
+
+   - `context/brand-voice.md` - Brand voice, tone, and messaging pillars
+   - `context/features.md` - Product/service features and benefits
+   - `context/style-guide.md` - Grammar, formatting, and editorial standards
+   - `context/seo-guidelines.md` - SEO requirements and keyword rules
+   - `context/target-keywords.md` - Keyword clusters and search intent
+   - `context/internal-links-map.md` - Key pages for internal linking
+   - `context/competitor-analysis.md` - Competitors and differentiation angles
+   - `context/writing-examples.md` - Add 3-5 of your best blog posts manually once content exists
+
+   You can also edit any context file directly after running the script.
 
    **Quick Start**: Check out `examples/castos/` to see a complete real-world example of all context files filled out for a podcast hosting SaaS company.
 
@@ -661,6 +673,8 @@ seomachine/
 ├── config/                # Configuration files
 │   └── competitors.example.json  # Competitor config template
 ├── context/               # Configuration and guidelines
+│   ├── _onboarding-questionnaire.md  # Fill this first — drives all context files
+│   ├── populate-context.py          # Run after filling questionnaire
 │   ├── brand-voice.md
 │   ├── writing-examples.md
 │   ├── style-guide.md
@@ -686,7 +700,34 @@ seomachine/
 
 ## Context Files (Important!)
 
-The quality of your content depends on well-configured context files:
+The quality of your content depends on well-configured context files. The recommended approach is to fill out `context/_onboarding-questionnaire.md` and run `python3 context/populate-context.py` — this auto-generates all files below from a single source of truth. You can then edit any file directly to refine.
+
+### `context/_onboarding-questionnaire.md`
+A 9-section questionnaire that captures everything SEO Machine needs to know about your business, brand, and content strategy.
+
+**Sections**:
+- Business Overview (name, URL, description, audience, goals)
+- Products & Features (offerings, benefits, use cases)
+- Brand Voice (tone, personality, messaging pillars)
+- Style Guide (grammar rules, formatting, terminology)
+- Target Keywords (clusters, intent, priority topics)
+- Internal Links (key pages and recommended anchor text)
+- Competitors (who they are and your differentiation)
+- SEO Guidelines (length, structure, technical rules)
+- Writing Examples (links to your best published posts)
+
+**Purpose**: Fill this in once per client/project, run the populate script, and all context files are ready.
+
+---
+
+### `context/populate-context.py`
+Reads `_onboarding-questionnaire.md` and writes all 8 context files automatically. Safe to re-run — overwrites files with updated answers.
+
+```bash
+python3 context/populate-context.py
+```
+
+---
 
 ### `context/brand-voice.md`
 Defines your brand voice, tone, and messaging framework.
@@ -1016,10 +1057,11 @@ Originally developed for Castos, now available as an open-source tool for any bu
 
 **Ready to start creating?**
 
-1. Configure your context files (use the templates as your guide)
-2. Run `/research [your topic]`
-3. Review the brief
-4. Run `/write [your topic]`
-5. Publish amazing content!
+1. Fill in `context/_onboarding-questionnaire.md` with your business info
+2. Run `python3 context/populate-context.py` to generate all context files
+3. Run `/research [your topic]`
+4. Review the brief
+5. Run `/write [your topic]`
+6. Publish amazing content!
 
 Happy writing! 📝
