@@ -275,6 +275,21 @@ Remove AI watermarks and patterns from content (em-dashes, filler phrases, robot
 
 ---
 
+### `/html-export [file]`
+Convert a finalized article to a Bootstrap 5-ready HTML fragment with Schema.org structured data. No `<html>`, `<head>`, `<header>`, or `<footer>` — just the article content ready to drop into any template.
+
+**Output**: `exports/[filename].html`
+
+**Includes**:
+- `BlogPosting` JSON-LD schema — always generated, pulls from frontmatter and article content
+- `FAQPage` schema — auto-detected when 3+ Q&A pairs are found in the article
+- `HowTo` schema — auto-detected when H1 starts with "How to" or numbered steps are present
+- Full Bootstrap 5 class mapping (headings, paragraphs, lists, tables, blockquotes, code blocks)
+- Article wrapped in `<article class="seo-article">` with a semantic `<header>` block
+- All SEO Machine metadata and agent report blocks stripped automatically
+
+---
+
 ### Research Commands
 
 | Command | Description |
